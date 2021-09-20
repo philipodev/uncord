@@ -28,6 +28,6 @@ jobs:
         cache: 'yarn'
     - run: yarn install
     - name: Build
-    - run: yarn build
+      run: yarn build
     - name: Lint
-    - run: yarn lint
+      run: yarn lint
