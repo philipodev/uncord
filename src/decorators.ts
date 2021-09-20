@@ -38,10 +38,10 @@ export function ButtonController(name: string): ClassDecorator {
   }
 }
 
-export function Client(): ClassDecorator {
+export function Client(): Function {
   return Inject("discordClient")()
 }
 
-export function RESTClient(): ClassDecorator {
+export function RESTClient(): Function {
   return Inject("discordRestClient")()
 }
