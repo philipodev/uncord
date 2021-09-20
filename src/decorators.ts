@@ -1,6 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
 import { Service } from 'typedi'
-export { Service } from 'typedi'
 
 export type CommandBuilderFunction = (command: SlashCommandBuilder) => any
 
