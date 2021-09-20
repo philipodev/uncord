@@ -39,9 +39,9 @@ export function ButtonController(name: string): ClassDecorator {
 }
 
 export function InjectClient(): Function {
-  return Inject("discordClient")()
+  return Inject("discordClient")
 }
 
 export function InjectRESTClient(): Function {
-  return Inject("discordRestClient")()
+  return Inject("discordRestClient")
 }
