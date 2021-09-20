@@ -15,6 +15,7 @@ import { IButtonController } from './IButtonController'
 import { IController } from './IController'
 
 type ControllerClass = {
+  // eslint-disable-next-line
   new (...args: any[]): IController
   slashCommandBuilder?: SlashCommandBuilder
   buttonAction?: string
@@ -24,7 +25,7 @@ export class Bot {
   private controllersMap: Map<string, ControllerClass>
   private client: Client
   private restClient: REST
-  private initializers: (() => Promise<any>)[] = []
+  private initializers: (() => Promise<void>)[] = []
 
   constructor(
     private readonly token: string,
@@ -38,7 +39,7 @@ export class Bot {
     this.setupContainer()
   }
 
-  addControllers(controllers: ControllerClass[]) {
+  addControllers(controllers: ControllerClass[]): Bot {
     this.controllersMap = new Map()
 
     for (const controller of controllers) {
@@ -60,7 +61,7 @@ export class Bot {
     Container.set('discordRestClient', this.restClient)
   }
 
-  getController<T = ICommandController>(name: string) {
+  getController<T = ICommandController>(name: string): T {
     const controllerClass = this.controllersMap.get(name)
 
     if (!controllerClass) return null
@@ -68,7 +69,7 @@ export class Bot {
     return Container.get<T>(controllerClass)
   }
 
-  addInitializer(promise: () => Promise<any>) {
+  addInitializer(promise: () => Promise<void>): Bot {
     this.initializers.push(promise)
 
     return this
@@ -76,7 +77,7 @@ export class Bot {
 
   private async runSecure(
     interaction: Interaction,
-    fn: (interaction: Interaction) => any
+    fn: (interaction: Interaction) => void
   ) {
     try {
       fn(interaction)
@@ -90,8 +91,8 @@ export class Bot {
     }
   }
 
-  async start(onReady?: VoidFunction) {
-    this.runInitializers().then(() => {
+  async start(onReady?: VoidFunction): Promise<Bot> {
+    await this.runInitializers().then(() => {
       this.setupContainer()
       this.login(onReady)
     })
@@ -99,13 +100,13 @@ export class Bot {
     return this
   }
 
-  async runInitializers() {
+  async runInitializers(): Promise<void> {
     for (const initializer of this.initializers) {
       await initializer()
     }
   }
 
-  async login(onReady?: VoidFunction) {
+  async login(onReady?: VoidFunction): Promise<void> {
     this.client.on('ready', () => {
       console.log(`Logged in as ${this.client.user.tag}!`)
       onReady && onReady()
