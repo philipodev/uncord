@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
-import { Service } from 'typedi'
+import Container, { Service, Inject } from 'typedi'
 
 export type CommandBuilderFunction = (command: SlashCommandBuilder) => any
 
@@ -36,4 +36,12 @@ export function ButtonController(name: string): ClassDecorator {
 
     return Service()(target)
   }
+}
+
+export function Client(): ClassDecorator {
+  return Inject("discordClient")()
+}
+
+export function RESTClient(): ClassDecorator {
+  return Inject("discordRestClient")()
 }
