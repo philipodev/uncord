@@ -1,6 +1,8 @@
 import { SlashCommandBuilder } from '@discordjs/builders'
-import Container, { Service, Inject } from 'typedi'
+import { Service, Inject } from 'typedi'
 
+// TODO: fix types here.
+// eslint-disable-next-line
 export type CommandBuilderFunction = (command: SlashCommandBuilder) => any
 
 export function CommandBuilder(
@@ -23,7 +25,7 @@ export function CommandBuilder(
 }
 
 export function Controller(): ClassDecorator {
-  return Service() as any
+  return Service() as () => void
 }
 
 export function ButtonController(name: string): ClassDecorator {
@@ -38,10 +40,10 @@ export function ButtonController(name: string): ClassDecorator {
   }
 }
 
-export function InjectClient(): Function {
-  return Inject('discordClient')
+export function InjectClient(): ParameterDecorator {
+  return Inject('discordClient') as ParameterDecorator
 }
 
-export function InjectRESTClient(): Function {
-  return Inject('discordRestClient')
+export function InjectRESTClient(): ParameterDecorator {
+  return Inject('discordRestClient') as ParameterDecorator
 }
