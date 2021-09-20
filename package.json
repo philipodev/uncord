@@ -6,8 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "lint": "eslint . --ext .ts",
-    "prepublish": "npm run build"
+    "lint": "eslint . --ext .ts"
   },
   "repository": {
     "type": "git",
